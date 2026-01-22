@@ -2,124 +2,154 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>成龙 Jackie Chan — 个人简历</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>成龙 - 个人简历</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft YaHei", sans-serif;
+        }
         body {
-            font-family: "Arial", sans-serif;
-            max-width: 800px;
-            margin: auto;
-            padding: 20px;
-            background: #fdfdfd;
-            color: #222;
-        }
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        header img {
-            width: 160px;
-            height: 160px;
-            object-fit: cover;
-            border-radius: 50%;
-        }
-        .section-title {
-            font-size: 1.6em;
-            margin-top: 30px;
-            margin-bottom: 10px;
+            background-color: #f5f5f5;
             color: #333;
         }
-        .info-table {
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .profile-photo {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid #ecf0f1;
+            margin-bottom: 20px;
+        }
+        h1 {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+        .title {
+            font-size: 18px;
+            color: #bdc3c7;
+        }
+        .section {
+            background-color: white;
+            margin: 30px 0;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 24px;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        .video-container {
             width: 100%;
-            border-collapse: collapse;
+            max-width: 800px;
+            margin: 0 auto;
         }
-        .info-table td {
-            padding: 6px 10px;
+        video {
+            width: 100%;
+            border-radius: 10px;
         }
-        .info-table td.label {
-            font-weight: bold;
+        .info-list {
+            list-style: none;
+        }
+        .info-list li {
+            margin: 10px 0;
+            font-size: 16px;
+        }
+        .info-list li strong {
+            color: #3498db;
             width: 120px;
-            color: #444;
+            display: inline-block;
         }
-        .works li {
-            margin-bottom: 6px;
+        .achievement-list {
+            list-style: disc;
+            padding-left: 20px;
+        }
+        .achievement-list li {
+            margin: 10px 0;
+            line-height: 1.6;
         }
         footer {
+            background-color: #2c3e50;
+            color: white;
             text-align: center;
-            margin-top: 40px;
-            font-size: 0.9em;
-            color: #666;
+            padding: 20px 0;
+            margin-top: 30px;
         }
     </style>
 </head>
 <body>
+    <header>
+        <div class="container">
+            <img src="1.png" alt="成龙" class="profile-photo">
+            <h1>成龙</h1>
+            <p class="title">国际影星 | 制片人 | 慈善家</p>
+        </div>
+    </header>
 
-<header>
-    <img src="https://upload.wikimedia.org/wikipedia/commons/4/4c/Jackie_Chan_2019.jpg" alt="成龙 Jackie Chan">
-    <h1>成龙 Jackie Chan</h1>
-    <p>动作演员 | 导演 | 制片人 | 编剧 | 歌手</p>
-</header>
+    <div class="container">
+        <section class="section">
+            <h2>🎥 成龙介绍视频</h2>
+            <div class="video-container">
+                <video controls poster="1.png">
+                    <source src="2.mp4" type="video/mp4">
+                    你的浏览器不支持HTML5视频播放
+                </video>
+            </div>
+        </section>
 
-<section>
-    <div class="section-title">基本信息</div>
-    <table class="info-table">
-        <tr>
-            <td class="label">中文名</td><td>成龙</td>
-        </tr>
-        <tr>
-            <td class="label">英文名</td><td>Jackie Chan</td>
-        </tr>
-        <tr>
-            <td class="label">原名</td><td>陈港生（Chan Kong-sang）</td>
-        </tr>
-        <tr>
-            <td class="label">出生日期</td><td>1954年4月7日</td>
-        </tr>
-        <tr>
-            <td class="label">出生地</td><td>香港特别行政区 🇭🇰</td>
-        </tr>
-        <tr>
-            <td class="label">国籍</td><td>中国（香港）</td>
-        </tr>
-        <tr>
-            <td class="label">语言</td><td>粤语 / 普通话 / 英语</td>
-        </tr>
-    </table>
-</section>
+        <section class="section">
+            <h2>👤 个人信息</h2>
+            <ul class="info-list">
+                <li><strong>本名</strong>：陈港生</li>
+                <li><strong>艺名</strong>：成龙、元楼</li>
+                <li><strong>出生日期</strong>：1954年4月7日</li>
+                <li><strong>出生地</strong>：中国香港</li>
+                <li><strong>国籍</strong>：中国</li>
+                <li><strong>职业</strong>：演员、导演、制片人、歌手</li>
+            </ul>
+        </section>
 
-<section>
-    <div class="section-title">职业简介</div>
-    <p>
-        成龙（Jackie Chan）是全球知名华人动作影星，以其创意动作喜剧和亲自完成高难度特技而闻名。他从儿童京剧学校出身，逐步成长为国际电影巨星，并影响了一代动作电影潮流。
-    </p>
-</section>
+        <section class="section">
+            <h2>🎬 演艺生涯</h2>
+            <p>
+                成龙自幼学习京剧，1971年以武师身份进入电影圈，1978年凭借《蛇形刁手》和《醉拳》确立功夫喜剧风格。
+                1994年凭借《红番区》成功打入好莱坞，之后主演《尖峰时刻》系列、《燕尾服》等影片，成为国际知名影星。
+                他的电影以惊险特技和幽默风格著称，多次打破票房纪录。
+            </p>
+        </section>
 
-<section>
-    <div class="section-title">代表作品</div>
-    <ul class="works">
-        <li>《蛇形刁手》 Snake in the Eagle’s Shadow (1978)</li>
-        <li>《醉拳》 Drunken Master (1978)</li>
-        <li>《警察故事》 Police Story 系列</li>
-        <li>《红番区》 Rumble in the Bronx (1995)</li>
-        <li>《尖峰时刻》 Rush Hour 系列</li>
-        <li>《功夫梦》 Kung Fu Panda 系列（配音）</li>
-        <li>《新宿事件》 Shinjuku Incident</li>
-    </ul>
-</section>
+        <section class="section">
+            <h2>🏆 主要成就</h2>
+            <ul class="achievement-list">
+                <li>奥斯卡终身成就奖（2016年）</li>
+                <li>香港电影金像奖最佳男主角（4次）</li>
+                <li>台湾电影金马奖最佳男主角（2次）</li>
+                <li>全球票房累计超过200亿美元</li>
+                <li>担任联合国儿童基金会亲善大使</li>
+                <li>香港特区政府颁发的银紫荆星章、铜紫荆星章</li>
+            </ul>
+        </section>
+    </div>
 
-<section>
-    <div class="section-title">荣誉与成就</div>
-    <p>🏆 奥斯卡终身成就奖（2016）</p>
-    <p>🎖 多项国际电影节与动作电影奖项获奖者</p>
-</section>
-
-<section>
-    <div class="section-title">社会贡献</div>
-    <p>积极参与慈善与文化交流活动，推动电影艺术发展。</p>
-</section>
-
-<footer>
-    © 2026 成龙 Jackie Chan — 个人简历
-</footer>
-
+    <footer>
+        <p>© 2025 成龙个人简历 | 设计与制作：Yannwan-art</p>
+    </footer>
 </body>
 </html>
