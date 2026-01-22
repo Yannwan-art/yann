@@ -127,8 +127,18 @@
             color: #475569;
             padding-left: 0;
         }
-        /* 打印专用样式（确保PDF导出格式正确） */
+        /* 打印专用样式（重点修复分页和空白问题） */
         @media print {
+            /* 隐藏浏览器默认页眉页脚 */
+            @page {
+                margin: 15mm;
+                size: A4 portrait;
+                /* 隐藏浏览器默认的页眉页脚 */
+                @top-left { content: ""; }
+                @top-right { content: ""; }
+                @bottom-left { content: ""; }
+                @bottom-right { content: ""; }
+            }
             body {
                 background-color: white;
                 -webkit-print-color-adjust: exact;
@@ -137,7 +147,8 @@
             header {
                 background-color: #1a365d !important;
                 color: white !important;
-                padding: 20px 0;
+                padding: 15px 0;
+                margin-bottom: 10px;
             }
             .profile-photo {
                 border: 2px solid white !important;
@@ -148,12 +159,24 @@
             .section {
                 box-shadow: none;
                 padding: 10px 0;
-                margin-bottom: 10px;
+                margin-bottom: 15px;
                 border: none;
+                /* 禁止区块跨页截断 */
                 page-break-inside: avoid;
+                /* 允许在区块前分页，防止内容被截断 */
+                page-break-before: auto;
             }
             footer {
                 display: none;
+            }
+            /* 优化段落间距，让内容更紧凑 */
+            p, li {
+                margin-bottom: 5px;
+                line-height: 1.6;
+            }
+            /* 手动在需要的地方插入分页符 */
+            .page-break {
+                page-break-after: always;
             }
         }
         /* 响应式调整 */
