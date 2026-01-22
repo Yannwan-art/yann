@@ -72,6 +72,9 @@
             font-weight: bold;
             margin-top: 15px;
             transition: background-color 0.3s;
+            cursor: pointer;
+            border: none;
+            font-size: 16px;
         }
         .download-btn:hover {
             background-color: #2563eb;
@@ -124,6 +127,31 @@
             color: #475569;
             padding-left: 0;
         }
+        /* PDF导出专用样式 */
+        @media print {
+            body {
+                background-color: white;
+            }
+            header {
+                background-color: white;
+                color: #333;
+                padding: 20px 0;
+            }
+            .profile-photo {
+                border: 2px solid #333;
+            }
+            .download-btn {
+                display: none; /* 导出PDF时隐藏下载按钮 */
+            }
+            .section {
+                box-shadow: none;
+                padding: 10px 0;
+                margin-bottom: 10px;
+            }
+            footer {
+                display: none;
+            }
+        }
         /* 响应式调整 */
         @media (max-width: 768px) {
             .header-container {
@@ -151,9 +179,28 @@
             margin-top: 50px;
             font-size: 14px;
         }
+        /* 加载提示 */
+        .loading {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0,0,0,0.7);
+            color: white;
+            padding: 20px 40px;
+            border-radius: 8px;
+            display: none;
+            z-index: 9999;
+        }
     </style>
+    <!-- 引入PDF转换所需的库 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
+    <!-- 加载提示 -->
+    <div class="loading" id="loadingTip">正在生成PDF，请稍候...</div>
+
     <header>
         <div class="header-container">
             <div class="profile-info">
@@ -164,16 +211,17 @@
                     <span>电话：138XXXX1234</span>
                     <span>地址：XX大学材料科学与工程学院</span>
                 </div>
-                <!-- PDF下载按钮 -->
-                <a href="cv_zhangming.pdf" download="张明_学术简历.pdf" class="download-btn">
-                    📄 下载PDF版简历
-                </a>
+                <!-- 一键导出PDF按钮 -->
+                <button class="download-btn" onclick="generatePDF()">
+                    📄 导出PDF版简历
+                </button>
             </div>
-            <img src="profile_photo.jpg" alt="张明博士个人照片" class="profile-photo">
+            <!-- 替换为你的个人照片URL，这里用示例图 -->
+            <img src="https://picsum.photos/150/150" alt="张明博士个人照片" class="profile-photo">
         </div>
     </header>
 
-    <div class="main-container">
+    <div class="main-container" id="resumeContent">
         <!-- 个人简介 -->
         <section class="section">
             <h2>个人简介</h2>
@@ -285,7 +333,7 @@
                     </li>
                     <li class="info-item">
                         <div class="item-header">
-                            XX省重点研发计划项目</div>
+                            <span>XX省重点研发计划项目</span>
                             <span>2020.01 - 2022.12</span>
                         </div>
                         <div class="item-content">
@@ -300,5 +348,36 @@
     <footer>
         <p>© 2025 张明 学术简历 | 所有信息仅供学术交流使用</p>
     </footer>
+
+    <script>
+        // 生成PDF的核心函数
+        function generatePDF() {
+            // 显示加载提示
+            document.getElementById('loadingTip').style.display = 'block';
+            
+            // 配置PDF导出参数
+            const opt = {
+                margin: 10, // 页边距
+                filename: '张明_学术简历.pdf', // 导出的文件名
+                image: { type: 'jpeg', quality: 0.98 }, // 图片质量
+                html2canvas: { scale: 2 }, // 缩放比例，提升清晰度
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' } // A4纵向
+            };
+
+            // 获取要导出的简历内容区域
+            const resumeElement = document.getElementById('resumeContent');
+            
+            // 执行PDF导出
+            html2pdf().set(opt).from(resumeElement).save().then(() => {
+                // 导出完成后隐藏加载提示
+                document.getElementById('loadingTip').style.display = 'none';
+            }).catch((err) => {
+                // 导出失败提示
+                document.getElementById('loadingTip').style.display = 'none';
+                alert('PDF生成失败，请刷新页面重试！');
+                console.error('PDF生成错误：', err);
+            });
+        }
+    </script>
 </body>
 </html>
