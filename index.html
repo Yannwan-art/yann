@@ -9,12 +9,12 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: "Times New Roman", "Microsoft YaHei", serif;
+            font-family: "Microsoft YaHei", "SimHei", sans-serif;
         }
         body {
             background-color: #f8f9fa;
             color: #333;
-            line-height: 1.6;
+            line-height: 1.8;
         }
         /* 头部样式 */
         header {
@@ -127,29 +127,50 @@
             color: #475569;
             padding-left: 0;
         }
-        /* PDF导出专用样式 */
+        /* PDF导出专用样式（重点修复） */
         @media print {
             body {
                 background-color: white;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
             }
             header {
-                background-color: white;
-                color: #333;
+                background-color: #1a365d !important;
+                color: white !important;
                 padding: 20px 0;
             }
             .profile-photo {
-                border: 2px solid #333;
+                border: 2px solid white !important;
             }
             .download-btn {
-                display: none; /* 导出PDF时隐藏下载按钮 */
+                display: none;
             }
             .section {
                 box-shadow: none;
                 padding: 10px 0;
                 margin-bottom: 10px;
+                border: none;
+                page-break-inside: avoid;
             }
             footer {
                 display: none;
+            }
+            /* 修复PDF中浮动元素的截断问题 */
+            .item-header {
+                display: block !important;
+            }
+            .item-header span:last-child {
+                float: right;
+                margin-top: -22px;
+            }
+            /* 强制文字不截断 */
+            .section-content {
+                white-space: pre-wrap !important;
+                word-wrap: break-word !important;
+            }
+            /* 优化化学式等特殊字符显示 */
+            li {
+                line-height: 2.0;
             }
         }
         /* 响应式调整 */
@@ -195,7 +216,6 @@
     </style>
     <!-- 引入PDF转换所需的库 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
     <!-- 加载提示 -->
@@ -216,7 +236,7 @@
                     📄 导出PDF版简历
                 </button>
             </div>
-            <!-- 替换为你的个人照片URL，这里用示例图 -->
+            <!-- 替换为你的个人照片URL -->
             <img src="https://picsum.photos/150/150" alt="张明博士个人照片" class="profile-photo">
         </div>
     </header>
@@ -352,27 +372,32 @@
     <script>
         // 生成PDF的核心函数
         function generatePDF() {
-            // 显示加载提示
             document.getElementById('loadingTip').style.display = 'block';
             
-            // 配置PDF导出参数
+            // 优化PDF导出参数
             const opt = {
-                margin: 10, // 页边距
-                filename: '张明_学术简历.pdf', // 导出的文件名
-                image: { type: 'jpeg', quality: 0.98 }, // 图片质量
-                html2canvas: { scale: 2 }, // 缩放比例，提升清晰度
-                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' } // A4纵向
+                margin: [15, 15, 15, 15],
+                filename: '张明_学术简历.pdf',
+                image: { type: 'jpeg', quality: 1.0 },
+                html2canvas: { 
+                    scale: 3, 
+                    useCORS: true,
+                    logging: false,
+                    letterRendering: true
+                },
+                jsPDF: { 
+                    unit: 'mm', 
+                    format: 'a4', 
+                    orientation: 'portrait',
+                    compress: true
+                }
             };
 
-            // 获取要导出的简历内容区域
             const resumeElement = document.getElementById('resumeContent');
             
-            // 执行PDF导出
             html2pdf().set(opt).from(resumeElement).save().then(() => {
-                // 导出完成后隐藏加载提示
                 document.getElementById('loadingTip').style.display = 'none';
             }).catch((err) => {
-                // 导出失败提示
                 document.getElementById('loadingTip').style.display = 'none';
                 alert('PDF生成失败，请刷新页面重试！');
                 console.error('PDF生成错误：', err);
