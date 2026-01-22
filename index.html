@@ -127,13 +127,13 @@
             color: #475569;
             padding-left: 0;
         }
-        /* 打印专用样式（重点修复分页和空白问题） */
+        /* 打印专用样式（核心优化：减少页间空白） */
         @media print {
-            /* 隐藏浏览器默认页眉页脚 */
+            /* 1. 缩小页面边距，减少整体空白 */
             @page {
-                margin: 15mm;
+                margin: 8mm 15mm; /* 上下边距8mm，左右15mm，比默认缩小50% */
                 size: A4 portrait;
-                /* 隐藏浏览器默认的页眉页脚 */
+                /* 隐藏浏览器默认页眉页脚（含页码和URL） */
                 @top-left { content: ""; }
                 @top-right { content: ""; }
                 @bottom-left { content: ""; }
@@ -144,39 +144,60 @@
                 -webkit-print-color-adjust: exact;
                 print-color-adjust: exact;
             }
+            /* 2. 压缩头部间距 */
             header {
                 background-color: #1a365d !important;
                 color: white !important;
-                padding: 15px 0;
-                margin-bottom: 10px;
+                padding: 10px 0; /* 头部内边距从40px缩至10px */
+                margin-bottom: 5px; /* 头部与内容间距从30px缩至5px */
             }
             .profile-photo {
                 border: 2px solid white !important;
+                width: 120px; /* 照片缩小，减少占用空间 */
+                height: 120px;
             }
-            .download-btn {
-                display: none;
+            h1 {
+                font-size: 28px; /* 标题字号缩小 */
+                margin-bottom: 5px;
             }
+            .academic-title {
+                font-size: 16px;
+                margin-bottom: 5px;
+            }
+            .contact-info {
+                font-size: 12px;
+            }
+            .contact-info span {
+                margin-right: 10px;
+            }
+            /* 3. 压缩内容模块间距 */
             .section {
                 box-shadow: none;
-                padding: 10px 0;
-                margin-bottom: 15px;
+                padding: 5px 0; /* 模块内边距从30px缩至5px */
+                margin-bottom: 8px; /* 模块间间距从30px缩至8px */
                 border: none;
-                /* 禁止区块跨页截断 */
-                page-break-inside: avoid;
-                /* 允许在区块前分页，防止内容被截断 */
-                page-break-before: auto;
+                page-break-inside: avoid; /* 禁止模块跨页，避免空白 */
             }
-            footer {
+            h2 {
+                font-size: 20px; /* 章节标题字号缩小 */
+                margin-bottom: 10px; /* 标题与内容间距从20px缩至10px */
+                padding-bottom: 5px;
+            }
+            .section-content {
+                font-size: 14px; /* 正文字号缩小 */
+                line-height: 1.5; /* 行高从1.8缩至1.5，减少行间距 */
+            }
+            /* 4. 压缩列表间距 */
+            .info-item {
+                margin-bottom: 8px; /* 列表项间距从15px缩至8px */
+                padding-bottom: 8px;
+            }
+            .item-content {
+                font-size: 13px;
+            }
+            /* 5. 隐藏多余元素 */
+            .download-btn, footer {
                 display: none;
-            }
-            /* 优化段落间距，让内容更紧凑 */
-            p, li {
-                margin-bottom: 5px;
-                line-height: 1.6;
-            }
-            /* 手动在需要的地方插入分页符 */
-            .page-break {
-                page-break-after: always;
             }
         }
         /* 响应式调整 */
@@ -219,7 +240,6 @@
                     <span>电话：138XXXX1234</span>
                     <span>地址：XX大学材料科学与工程学院</span>
                 </div>
-                <!-- 导出PDF按钮（调用浏览器打印功能） -->
                 <button class="download-btn" onclick="exportPDF()">
                     📄 导出可编辑PDF版简历
                 </button>
@@ -233,10 +253,7 @@
         <section class="section">
             <h2>个人简介</h2>
             <div class="section-content">
-                工学博士，毕业于XX大学材料科学与工程学院，主要从事新型功能陶瓷材料的制备、微观结构表征及性能优化研究。
-                累计发表SCI收录论文15篇（其中第一作者/通讯作者8篇，TOP期刊6篇），申请发明专利5项（已授权2项）。
-                参与国家自然科学基金项目2项、省部级重点研发项目1项，研究成果获XX省科技进步二等奖1项。
-                熟悉扫描电子显微镜（SEM）、X射线衍射仪（XRD）等材料表征手段，掌握第一性原理计算、分子动力学模拟等理论研究方法。
+                工学博士，毕业于XX大学材料科学与工程学院，主要从事新型功能陶瓷材料的制备、微观结构表征及性能优化研究。累计发表SCI收录论文15篇（其中第一作者/通讯作者8篇，TOP期刊6篇），申请发明专利5项（已授权2项）。参与国家自然科学基金项目2项、省部级重点研发项目1项，研究成果获XX省科技进步二等奖1项。熟悉扫描电子显微镜（SEM）、X射线衍射仪（XRD）等材料表征手段，掌握第一性原理计算、分子动力学模拟等理论研究方法。
             </div>
         </section>
 
@@ -289,7 +306,7 @@
             </div>
         </section>
 
-        <!-- 代表性成果 -->
+        <!-- 代表性学术成果 -->
         <section class="section">
             <h2>代表性学术成果</h2>
             <div class="section-content">
@@ -357,9 +374,7 @@
     </footer>
 
     <script>
-        // 导出PDF的核心函数（调用浏览器打印功能）
         function exportPDF() {
-            // 触发浏览器打印
             window.print();
         }
     </script>
